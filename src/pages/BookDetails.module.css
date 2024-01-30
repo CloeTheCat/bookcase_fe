@@ -1,0 +1,54 @@
+.detailsWrapper {
+    display: flex;
+    flex-wrap: wrap;
+    width: 100%;
+}
+
+.bookDetails {
+    /* background-color: yellow; */
+    text-align: start;
+    margin: 0 4rem;
+    flex: 4;
+}
+
+.userDetails {
+    flex: 1;
+    background-color: darkolivegreen;
+    width: fit-content;
+    height: fit-content;
+    margin-right: 2rem;
+    padding: 1rem 2rem;
+}
+
+.bookTitle {
+    color: darkolivegreen;
+    font-size: xx-large;
+    margin: 0;
+}
+
+.bookAuthor {
+    color: gray;
+    font-size: medium;
+}
+
+.bookIsbn {
+    color: gray;
+    font-size: small;
+}
+
+.bookPlotTitle {
+    color: darkolivegreen;
+    font-size: medium;
+    margin-bottom: 0;
+}
+
+.bookPlotText {
+    text-align: justify;
+    color: #222;
+}
+
+.userDetailsText {
+    color: #eee;
+    text-align: start;
+    font-size: smaller;
+}

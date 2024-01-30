@@ -1,0 +1,6 @@
+.booksGrid {
+    display: flex;
+    margin: 1rem 2rem;
+    flex-wrap: wrap;
+    justify-content: space-between;
+}

@@ -1,0 +1,26 @@
+.cardWrapper {
+    margin: 2rem 2rem 0 0;
+    width: max-content;
+}
+
+.title {
+    color: darkolivegreen;
+    margin: 0;
+    text-transform: capitalize;
+    text-align: start;
+}
+
+.author {
+    color: gray;
+    margin: 0.5rem 0 0 0;
+    text-transform: capitalize;
+    text-align: start;
+    font-size: small;
+}
+
+.readCount {
+    color: gray;
+    font-size: smaller;
+    text-align: start;
+    margin: 0.5rem 0 0 0;
+}

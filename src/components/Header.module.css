@@ -1,0 +1,28 @@
+header {
+    position: relative;
+
+}
+
+.headerTitle {
+    margin-left: 1rem;
+    text-transform: lowercase;
+    color: darkolivegreen;
+}
+
+.user {
+    color: #222;
+    position: absolute;
+    top: 0.8rem;
+    right: 1rem;
+}
+
+.userAuthButton {
+    color: darkolivegreen;
+    font-weight: 700;
+}
+
+.headerImg {
+    height: 8rem;
+    background-color: darkolivegreen;
+}
+
