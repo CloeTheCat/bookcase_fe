@@ -1,28 +1,33 @@
 import { useEffect, useState } from 'react';
 import { booksByUser } from '../services/booksByUser';
-import { newBook } from '../services/newBook';
 import BookCard from './BookCard';
 import classes from './BooksGrid.module.css';
+import { Link } from 'react-router-dom';
+import { useSelector } from 'react-redux';
 
-const libro = {
-    title: 'Topolino',
-    author: 'Walt Disney',
-    isbn: 34253,
-    plot: 'cose'
-}
 
 function BooksGrid() {
+  const userDetails = useSelector(state => state.login.user);
+
     const [userBooks, setUserBooks] = useState([]);
-    const [addBook, setAddBook] = useState({});
-    console.log(addBook);
 
     useEffect(() => {
-        booksByUser().then((res) => {setUserBooks(res.data)});
-        // newBook(libro).then((res) => setAddBook(res.data));
+        booksByUser(userDetails.id_user)
+            .then((res) => {
+                console.log(res.data);
+                setUserBooks(res.data)
+            });
     }, []);
 
     return <div className={classes.booksGrid}>
-        {userBooks.map(({title, author}, index) => <BookCard key={index} title={title} author={author} readCount={1}/>)}
+        {userBooks.map((userLibraryBook, index) => <Link 
+            to={`/${userLibraryBook.id_book}`}
+            className={classes.link}
+        >
+            <BookCard key={index}
+                bookData={userLibraryBook}
+            />
+        </Link>)}
     </div>
 }
 

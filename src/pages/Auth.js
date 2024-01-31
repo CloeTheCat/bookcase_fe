@@ -1,61 +1,105 @@
 import * as React from 'react';
+import { Link, useNavigate } from 'react-router-dom';
 import TextField from '@mui/material/TextField';
 import Button from '@mui/material/Button';
+import { ArrowBack } from '@mui/icons-material';
 
 import classes from './Auth.module.css';
 
-import { login } from '../services/login.js';
+import { useDispatch, useSelector } from 'react-redux';
+import { login } from '../services/login';
+import { signin } from '../services/signin';
+
+import { setUser } from '../store';
+
 
 function Auth() {
+  const userDetails = useSelector(state => state.login.user);
+  const dispatch = useDispatch();
+
+  const navigate = useNavigate();
+
+  const [isLoginMode, setIsLoginMode] = React.useState(false);
+    const [name, setName] = React.useState('');
+    const [surname, setSurname] = React.useState('');
     const [email, setEmail] = React.useState('');
-    const [isLogin, setIsLogin] = React.useState(true);
+
 
     const handleLogin = async () => {
-        const res = await login()
-        // console.log('res:',res)
+        const res = await login(email);
+        console.log('res:',res)
+        if (res.status === 200) {
+          dispatch(setUser(res.data));
+          navigate('/');
+        }
     }
 
+    const handleSignin = async () => {
+      const res = await signin({ name, surname, email });
+      console.log('res:',res)
+      if (res.status === 201) {
+        dispatch(setUser(res.data));
+        navigate('/');
+      }
+  }
+
     let changeAuthMode = 'Registra un nuovo account.';
-    let authMode = 'Login';
-    const registerMode = <>
+    let authMode = 'Accedi';
+    
+    const registerModeContents = <>
         <TextField 
           label="Nome" 
           variant="outlined" 
-          onChange={event => setEmail(event.target.value)}
+          onChange={event => setName(event.target.value)}
           sx={textField}
         />
         <TextField 
           label="Cognome" 
           variant="outlined" 
-          onChange={event => setEmail(event.target.value)}
+          onChange={event => setSurname(event.target.value)}
           sx={textField}
 
         />
       </>;
 
-    if (!isLogin) {
+    if (!isLoginMode) {
       authMode = 'Iscriviti'
       changeAuthMode = 'Ho già un account.';
     }
 
     return (
       <div className={classes.authPage}>
+        <Link to='/' className={classes.link}>
+          <Button 
+            variant='text' 
+            startIcon={<ArrowBack />} 
+            sx={textButtonStyle}
+          >
+            Torna alla Home
+          </Button>
+        </Link>
         <h1 className={classes.authPageTitle}>Accedi alla tua libreria</h1>
-        <h1>{email}</h1>
 
-        {!isLogin && registerMode}
+        {!isLoginMode && registerModeContents}
 
         <TextField 
           label="Email" 
+          type="email"
           variant="outlined" 
           onChange={event => setEmail(event.target.value)}
           sx={textField}
 
         />
 
-        <Button variant="contained" onClick={handleLogin} sx={containedButtonStyle}>{authMode}</Button>
+        <Button 
+          variant="contained" 
+          onClick={isLoginMode ? handleLogin : handleSignin} 
+          sx={containedButtonStyle}
+        >
+          {authMode}
+        </Button>
 
-        <Button variant="text" onClick={() => setIsLogin(!isLogin)} sx={textButtonStyle}>{changeAuthMode}</Button>
+        <Button variant="text" onClick={() => setIsLoginMode(!isLoginMode)} sx={textButtonStyle}>{changeAuthMode}</Button>
 
       </div>
     );

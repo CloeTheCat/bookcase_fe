@@ -5,7 +5,6 @@
 }
 
 .bookDetails {
-    /* background-color: yellow; */
     text-align: start;
     margin: 0 4rem;
     flex: 4;
@@ -13,7 +12,6 @@
 
 .userDetails {
     flex: 1;
-    background-color: darkolivegreen;
     width: fit-content;
     height: fit-content;
     margin-right: 2rem;

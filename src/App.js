@@ -6,14 +6,16 @@ import RootLayout from "./pages/Root";
 
 const router = createBrowserRouter([
   { path: '/', element: <RootLayout />, children: [
-    { path: '', element: <Home />},
-    { path: ':id_book', element: <BookDetails />}
+    { index: true, element: <Home />},
+    { path: ':id_book', element: <BookDetails />},
   ]},
   { path: '/auth', element: <Auth />},
   
 ]);
 
 function App() {
+  // const [ isLoggedIn, setIsLoggedIn ] = useState(true);
+
   return <RouterProvider router={router} />;
 }
 

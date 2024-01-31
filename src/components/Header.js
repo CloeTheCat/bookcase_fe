@@ -1,15 +1,30 @@
 import Button from '@mui/material/Button';
 import classes from './Header.module.css';
+import { useDispatch, useSelector } from 'react-redux';
+import { logout } from '../store'
 
-// aggiungere funzioni e variabili del login e logout
 
 function Header() {
+  const userDetails = useSelector(state => state.login.user);
+  const dispatch = useDispatch();
+
+    const handleLogout = () => {
+        dispatch(logout());
+    }
+
     return <header>
         <h1 className={classes.headerTitle}>libreria</h1>
-        <div className={classes.user}>
-            <span>Nome utente</span>
-            <Button variant="text" className={classes.userAuthButton} sx={buttonStyle}>Logout</Button>
-        </div>
+        {userDetails !== null && <div className={classes.user}>
+            <span>{userDetails.name} {userDetails.surname}</span>
+            <Button 
+                variant="text" 
+                className={classes.userAuthButton} 
+                sx={buttonStyle}
+                onClick={handleLogout}
+            >
+                Logout
+            </Button>
+        </div>}
         <div className={classes.headerImg}></div>
     </header>
 }
