@@ -5,8 +5,8 @@ import { logout } from '../store'
 
 
 function Header() {
-  const userDetails = useSelector(state => state.login.user);
-  const dispatch = useDispatch();
+    const userDetails = useSelector(state => state.login.user);
+    const dispatch = useDispatch();
 
     const handleLogout = () => {
         dispatch(logout());
@@ -15,14 +15,16 @@ function Header() {
     return <header>
         <h1 className={classes.headerTitle}>libreria</h1>
         {userDetails !== null && <div className={classes.user}>
-            <span>{userDetails.name} {userDetails.surname}</span>
-            <Button 
-                variant="text" 
-                className={classes.userAuthButton} 
+            <span className={classes.userAuthDetails}>
+                {userDetails.name} {userDetails.surname}
+            </span>
+            <Button
+                variant="text"
+                className={classes.userLogoutButton}
                 sx={buttonStyle}
                 onClick={handleLogout}
             >
-                Logout
+                Esci
             </Button>
         </div>}
         <div className={classes.headerImg}></div>
@@ -30,7 +32,7 @@ function Header() {
 }
 
 const buttonStyle = {
-    color: 'darkolivegreen', 
+    color: 'darkolivegreen',
     fontWeight: 700,
     marginLeft: '0.5rem',
     '&:hover': {

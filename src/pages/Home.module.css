@@ -7,3 +7,16 @@
     color: darkolivegreen;
     font-size: 2rem;
 }
+
+.gridTitle {
+    text-align: left;
+    margin-left: 2rem;
+    margin-top: 2rem;
+    color: darkolivegreen
+}
+
+.noBooksError {
+    margin-top: 3rem;
+    color: firebrick;
+    font-weight: 500;
+}

@@ -16,7 +16,11 @@ header {
     right: 1rem;
 }
 
-.userAuthButton {
+.userAuthDetails {
+    color: #222;
+}
+
+.userLogoutButton {
     color: darkolivegreen;
     font-weight: 700;
 }
@@ -25,4 +29,3 @@ header {
     height: 8rem;
     background-color: darkolivegreen;
 }
-
