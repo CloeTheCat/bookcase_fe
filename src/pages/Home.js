@@ -8,8 +8,6 @@ import { useEffect, useState } from 'react';
 import { booksByUser } from '../services/booksByUser';
 import { searchBookByTitle } from '../services/searchBookByTitle';
 
-// cambio pagina se il login è stato effettuato
-
 function Home() {
     const userDetails = useSelector(state => state.login.user)
 
@@ -29,7 +27,7 @@ function Home() {
     useEffect(() => {
         userDetails
             && searchedTitle !== ''
-            && searchBookByTitle(searchedTitle)
+            && searchBookByTitle({ id_user: userDetails.id_user, typedString: searchedTitle, offset: 0, limit: 100 })
                 .then((res) => {
                     setSearchedBooks(res.data)
                 });

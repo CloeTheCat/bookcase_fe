@@ -8,6 +8,12 @@ import { getBookData } from '../services/getBookData';
 import { useSelector } from 'react-redux';
 import moment from 'moment';
 
+import { updateReadCount } from '../services/updateReadCount';
+import { removeBookFromLibrary } from '../services/removeBookFromLibrary';
+import { addBookToLibrary } from '../services/addBookToLibrary';
+import { addBookAgain } from '../services/addBookAgain';
+
+
 let dummyBook = {
   "id_book": 0,
   "title": "Titolo",
@@ -24,6 +30,8 @@ let dummyBook = {
 function BookDetails() {
   const userDetails = useSelector(state => state.login.user);
   const [bookData, setBookData] = useState(dummyBook);
+  const [updateBook, setUpdateBook] = useState(false);
+  const [isButtonDisabled, setIsButtonDisabled] = useState(true);
 
   let { id_book } = useParams();
 
@@ -33,27 +41,74 @@ function BookDetails() {
     userDetails && getBookData({ id_book: bookId, id_user: id_user })
       .then((res) => {
         setBookData(res.data)
-        console.log('res', res)
+        if (res.data.read_count !== undefined && res.data.read_count > 0) {
+          setIsButtonDisabled(false)
+        }
       })
-  }, [])
+  }, [updateBook])
+
+  let readCountText = 'Non hai ancora letto questo libro.'
+
+  if (bookData.read_count === 1) {
+    readCountText = 'Hai letto questo libro una volta.';
+  } else if (bookData.read_count > 1) {
+    readCountText = `Hai letto questo libro ${bookData.read_count} volte.`
+  }
+
+  const handleSubtractCount = async () => {
+    let newReadCount = bookData.read_count - 1
+    await updateReadCount({ id_userlibrary: bookData.id_userlibrary, read_count: newReadCount })
+    setUpdateBook(!updateBook)
+
+    if (newReadCount === 0) {
+      setIsButtonDisabled(true)
+    }
+  }
+
+  const handleAddCount = async () => {
+    let newReadCount = bookData.read_count + 1
+    await updateReadCount({ id_userlibrary: bookData.id_userlibrary, read_count: newReadCount })
+    setUpdateBook(!updateBook)
+
+    setIsButtonDisabled(false)
+  }
+
+  const handleRemoveBook = () => {
+    removeBookFromLibrary(bookData.id_userlibrary);
+    setUpdateBook(!updateBook)
+  }
+  const handleAddBook = () => {
+    if (bookData.removed_on === null) {
+      addBookToLibrary({ id_user: userDetails.id_user, id_book: bookData.id_book })
+      setUpdateBook(!updateBook)
+
+    } else {
+      addBookAgain(bookData.id_userlibrary)
+      setUpdateBook(!updateBook)
+
+    }
+  }
 
   let asideContent = <>
-    <Button variant='contained' sx={buttonStyle}>Aggiungi alla libreria</Button>
+    <Button variant='contained' onClick={handleAddBook} sx={buttonStyle}>Aggiungi alla libreria</Button>
   </>;
 
-  if (bookData.added_on !== null && bookData.added_on !== undefined) {
+  if (bookData.added_on !== null && bookData.added_on !== undefined && bookData.removed_on === null) {
     let added_on = moment(bookData.added_on).format('D MM YYYY');
+
 
     asideContent = <>
       <Card sx={cardStyle}>
         <p className={classes.userDetailsText}>Aggiunto alla tua libreria il {added_on}</p>
-        <p className={classes.userDetailsText}>Hai letto questo libro {bookData.read_count} volte.</p>
-        <IconButton aria-label='meno'><Remove /></IconButton>
-        <IconButton aria-label='più'><Add /></IconButton>
+        <p className={classes.userDetailsText}>{readCountText}</p>
+        <IconButton aria-label='meno' onClick={handleSubtractCount} disabled={isButtonDisabled}><Remove /></IconButton>
+        <IconButton aria-label='più' onClick={handleAddCount}><Add /></IconButton>
       </Card>
-      <Button variant='contained' sx={buttonStyle}>Rimuovi dalla libreria</Button>
+      <Button variant='contained' onClick={handleRemoveBook} sx={buttonStyle}>Rimuovi dalla libreria</Button>
     </>
   }
+
+
 
   return (<>
     <Link to='/'>

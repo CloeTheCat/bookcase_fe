@@ -5,7 +5,6 @@ import { removeBookFromLibrary } from '../services/removeBookFromLibrary';
 import { addBookToLibrary } from '../services/addBookToLibrary';
 import { useSelector } from 'react-redux';
 import { addBookAgain } from '../services/addBookAgain';
-import { useState } from 'react';
 import { Link } from 'react-router-dom';
 
 
@@ -21,7 +20,7 @@ function BookCard({ bookData, searchedTitle, updateBooks }) {
         readCountText = `Hai letto questo libro ${bookData.read_count} volte.`
     }
 
-    const handleDeleteBook = () => {
+    const handleRemoveBook = () => {
         removeBookFromLibrary(bookData.id_userlibrary);
         updateBooks()
     }
@@ -37,9 +36,9 @@ function BookCard({ bookData, searchedTitle, updateBooks }) {
 
     let iconButton = null;
 
-    if (searchedTitle !== '' && bookData.removed_on === null) {
-        iconButton = <IconButton onClick={handleDeleteBook} sx={iconButtonStyle}><Delete /></IconButton>
-    } else if (searchedTitle !== '' && bookData.removed_on !== null) {
+    if (searchedTitle !== '' && bookData.added_on !== null && bookData.removed_on === null) {
+        iconButton = <IconButton onClick={handleRemoveBook} sx={iconButtonStyle}><Delete /></IconButton>
+    } else if (searchedTitle !== '' && (bookData.removed_on !== null || bookData.added_on === null)) {
         iconButton = <IconButton onClick={handleAddBook} sx={iconButtonStyle}><Add /></IconButton>
     }
 

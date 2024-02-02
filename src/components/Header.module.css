@@ -18,6 +18,7 @@ header {
 
 .userAuthDetails {
     color: #222;
+    text-transform: capitalize;
 }
 
 .userLogoutButton {

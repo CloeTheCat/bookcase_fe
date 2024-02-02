@@ -22,12 +22,11 @@ function Auth() {
   const [isLoginMode, setIsLoginMode] = React.useState(false);
   const [name, setName] = React.useState('');
   const [surname, setSurname] = React.useState('');
-  const [email, setEmail] = React.useState('claudia@email.com');
+  const [email, setEmail] = React.useState('');
 
 
   const handleLogin = async () => {
     const res = await login(email);
-    console.log('res:', res)
     if (res.status === 200) {
       dispatch(setUser(res.data));
       navigate('/');
@@ -36,7 +35,6 @@ function Auth() {
 
   const handleSignin = async () => {
     const res = await signin({ name, surname, email });
-    console.log('res:', res)
     if (res.status === 201) {
       dispatch(setUser(res.data));
       navigate('/');
