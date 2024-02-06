@@ -1,6 +1,7 @@
 .authPage {
     margin: 2rem auto;
     text-align: center;
+    max-width: 500px;
 }
 
 .authPageTitle {

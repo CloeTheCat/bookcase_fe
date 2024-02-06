@@ -18,7 +18,7 @@ let dummyBook = {
   "id_book": 0,
   "title": "Titolo",
   "author": "Autore",
-  "isbn": 0,
+  "isbn": "0",
   "plot": "Trama",
   "id_userlibrary": null,
   "id_user": null,
